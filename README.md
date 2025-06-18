@@ -1,6 +1,6 @@
 # MG Design - Site Web
 
-🌐 Site web : [http://mgdesign.cloud/](http://mgdesign.cloud/)
+🌐 Site web : [http://mgdesign.cloud/](https://mgdesign.cloud/)
 
 ## Description
 Site web vitrine de MG Design, créateurs d'objets personnalisés locaux en Bourgogne. Le site permet aux visiteurs de découvrir nos services, nos réalisations et de demander un devis personnalisé.
