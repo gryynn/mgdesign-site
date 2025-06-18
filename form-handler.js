@@ -39,8 +39,8 @@ document.getElementById('contactForm').addEventListener('submit', async function
             throw new Error('Veuillez entrer une adresse email valide');
         }
 
-        if (message.length < 10) {
-            throw new Error('Le message doit contenir au moins 10 caractères');
+        if (!message) {
+            throw new Error('Veuillez entrer un message');
         }
 
         let fileUrl = null;
