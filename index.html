@@ -768,12 +768,6 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
         
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -992,7 +986,9 @@
             </ul>
             <div style="display: flex; align-items: center;">
                 <a href="#contact" class="cta-button">Demander un devis</a>
-                <a href="https://instagram.com/mgdesign.cloud" class="instagram-link" target="_blank">📷</a>
+                <a href="https://instagram.com/mgdesign.cloud" class="instagram-link" target="_blank">
+                    <img src="instagram-icone-gris.png" alt="Instagram" style="width: 24px; height: 24px;">
+                </a>
             </div>
             <button class="mobile-menu-btn">☰</button>
         </nav>
@@ -1268,44 +1264,21 @@
             </div>
             <div class="form-container">
                 <form id="contactForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name">Nom complet *</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="deadline">Délai souhaité</label>
-                            <select id="deadline" name="deadline">
-                                <option value="">Choisir un délai</option>
-                                <option value="urgent">Urgent (2-3 jours)</option>
-                                <option value="normal">Normal (1 semaine)</option>
-                                <option value="flexible">Flexible (2+ semaines)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="budget">Budget approximatif</label>
-                            <select id="budget" name="budget">
-                                <option value="">Choisir un budget</option>
-                                <option value="50-200">50€ - 200€</option>
-                                <option value="200-500">200€ - 500€</option>
-                                <option value="500-1000">500€ - 1000€</option>
-                                <option value="1000+">1000€+</option>
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Nom complet *</label>
+                        <input type="text" id="name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="project">Décrivez votre projet *</label>
-                        <textarea id="project" name="project" placeholder="Partagez-nous votre idée, même si elle n'est pas encore précise. Plus vous nous donnez de détails, mieux nous pourrons vous accompagner : type d'objet, quantité, usage, contraintes spécifiques..." required></textarea>
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="files">Fichiers de référence (optionnel)</label>
-                        <input type="file" id="files" name="files" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" placeholder="Décrivez votre projet en détail..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">Fichier de référence (max 50MB)</label>
+                        <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
                         <small style="color: var(--neutral-medium); font-size: 0.85rem;">Photos, croquis, documents de référence...</small>
                     </div>
                     <button type="submit" class="submit-btn">Envoyer ma demande de devis</button>
@@ -1322,7 +1295,9 @@
                     <h3>Contact</h3>
                     <p>📧 contact@mgdesign.fr</p>
                     <p>📞 +33 (0)X XX XX XX XX</p>
-                    <a href="https://instagram.com/mgdesign.cloud" target="_blank">📷 Instagram</a>
+                    <a href="https://instagram.com/mgdesign.cloud" target="_blank">
+                        <img src="instagram-icone-gris.png" alt="Instagram" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 5px;"> Instagram
+                    </a>
                 </div>
                 <div class="footer-section">
                     <h3>Localisation</h3>
@@ -1351,6 +1326,10 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="form-handler.js"></script>
     <script>
         // Portfolio carousel functionality
         let currentSlideIndex = 0;
