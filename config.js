@@ -1,3 +1,0 @@
-// Configuration Supabase
-const SUPABASE_URL = 'https://ukkvcmadjfojhvocwjaa.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVra3ZjbWFkamZvamh2b2N3amFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMzA3NzgsImV4cCI6MjA2NTgwNjc3OH0.4TBvIrfeK9SUuTJRmrr7kXmawdJajalbQL3oAR4M3UM'; 
