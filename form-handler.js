@@ -5,7 +5,21 @@ import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
 // Initialisation du client Supabase
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+console.log('Initialisation du client Supabase avec:', { SUPABASE_URL, SUPABASE_KEY: SUPABASE_KEY.substring(0, 10) + '...' });
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+    }
+});
+
+// Vérification de l'authentification
+async function checkAuth() {
+    const { data: { session }, error } = await supabaseClient.auth.getSession();
+    console.log('État de l\'authentification:', { session: !!session, error });
+    return !error;
+}
 
 // Fonction pour afficher les erreurs
 function showError(message) {
@@ -70,6 +84,12 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
     try {
         console.log('Début de la soumission du formulaire');
+        
+        // Vérifier l'authentification avant de continuer
+        const isAuthenticated = await checkAuth();
+        if (!isAuthenticated) {
+            throw new Error('Erreur d\'authentification avec Supabase');
+        }
         
         const formData = new FormData(this);
         const name = formData.get('name').trim();
