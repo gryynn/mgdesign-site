@@ -1,6 +1,29 @@
 // Utilisation du client Supabase initialisé
 const supabaseClient = window.supabase;
 
+// Fonction pour vérifier l'état de l'authentification
+async function checkAuth() {
+    try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        console.log('État de l\'authentification:', {
+            hasSession: !!session,
+            error: error ? error.message : null,
+            sessionDetails: session ? {
+                user: session.user ? {
+                    id: session.user.id,
+                    email: session.user.email,
+                    role: session.user.role
+                } : null,
+                access_token: session.access_token ? 'present' : 'missing'
+            } : null
+        });
+        return !error;
+    } catch (err) {
+        console.error('Erreur lors de la vérification de l\'authentification:', err);
+        return false;
+    }
+}
+
 // Fonction pour afficher les erreurs
 function showError(message) {
     const errorDiv = document.getElementById('formError');
@@ -31,7 +54,6 @@ function showSuccess(message) {
     successDiv.textContent = message;
     document.body.appendChild(successDiv);
     
-    // Supprimer le message après 5 secondes
     setTimeout(() => {
         successDiv.style.animation = 'slideOut 0.5s ease-out';
         setTimeout(() => successDiv.remove(), 500);
@@ -162,6 +184,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
         // Réinitialisation du formulaire et message de succès
         this.reset();
+        localStorage.removeItem('formData'); // Nettoyer les données sauvegardées
         showSuccess('✅ Merci pour votre demande ! Nous vous répondrons dans les plus brefs délais.');
         
     } catch (error) {

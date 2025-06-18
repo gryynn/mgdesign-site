@@ -1334,13 +1334,24 @@
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
         
         // Initialiser Supabase
-        window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
             auth: {
                 autoRefreshToken: true,
                 persistSession: true,
                 detectSessionInUrl: true
             }
         });
+
+        // Vérifier l'état de l'authentification au chargement
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            console.log('État initial de l\'authentification:', {
+                hasSession: !!session,
+                error: error ? error.message : null
+            });
+        });
+
+        // Rendre Supabase disponible globalement
+        window.supabase = supabase;
 
         // Charger le gestionnaire de formulaire
         const formHandlerScript = document.createElement('script');
@@ -1354,26 +1365,30 @@
             // Restaurer les données sauvegardées
             const savedData = localStorage.getItem('formData');
             if (savedData) {
-                const data = JSON.parse(savedData);
-                Object.keys(data).forEach(key => {
-                    const input = form.elements[key];
-                    if (input) input.value = data[key];
-                });
+                try {
+                    const data = JSON.parse(savedData);
+                    Object.keys(data).forEach(key => {
+                        const input = form.elements[key];
+                        if (input) input.value = data[key];
+                    });
+                } catch (e) {
+                    console.error('Erreur lors de la restauration des données:', e);
+                    localStorage.removeItem('formData');
+                }
             }
 
             // Sauvegarder les données lors des modifications
             form.addEventListener('input', (e) => {
-                const formData = new FormData(form);
-                const data = {};
-                formData.forEach((value, key) => {
-                    data[key] = value;
-                });
-                localStorage.setItem('formData', JSON.stringify(data));
-            });
-
-            // Nettoyer les données sauvegardées après soumission réussie
-            form.addEventListener('submit', () => {
-                localStorage.removeItem('formData');
+                try {
+                    const formData = new FormData(form);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+                    localStorage.setItem('formData', JSON.stringify(data));
+                } catch (e) {
+                    console.error('Erreur lors de la sauvegarde des données:', e);
+                }
             });
         }
     </script>
