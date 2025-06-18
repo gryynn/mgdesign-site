@@ -1379,45 +1379,6 @@
             });
         });
 
-        // Enhanced form handling with validation
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Enhanced validation
-            if (!data.name || data.name.length < 2) {
-                alert('Veuillez entrer un nom valide (au moins 2 caractères).');
-                return;
-            }
-            
-            if (!data.email || !data.email.includes('@')) {
-                alert('Veuillez entrer une adresse email valide.');
-                return;
-            }
-            
-            if (!data.project || data.project.length < 10) {
-                alert('Veuillez décrire votre projet plus en détail (au moins 10 caractères).');
-                return;
-            }
-            
-            // Visual feedback
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Envoi en cours...';
-            submitBtn.disabled = true;
-            
-            // Simulate sending (replace with actual API call)
-            setTimeout(() => {
-                alert('✅ Merci pour votre demande ! Nous vous répondrons dans les plus brefs délais.');
-                this.reset();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 1500);
-        });
-
         // Header scroll effect with smooth transition
         let lastScrollY = window.scrollY;
         window.addEventListener('scroll', function() {
@@ -1476,7 +1437,7 @@
         });
 
         // File upload feedback
-        document.getElementById('files').addEventListener('change', function(e) {
+        document.getElementById('file').addEventListener('change', function(e) {
             const fileCount = e.target.files.length;
             if (fileCount > 0) {
                 const label = this.parentNode.querySelector('small');
