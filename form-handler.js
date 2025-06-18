@@ -1,5 +1,5 @@
 // Initialisation du client Supabase
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Fonction pour afficher les erreurs
 function showError(message) {
@@ -100,7 +100,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
             const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
             
             // Upload du fichier
-            const { data: fileData, error: uploadError } = await supabase.storage
+            const { data: fileData, error: uploadError } = await supabaseClient.storage
                 .from('fichiers_devis')
                 .upload(fileName, file);
 
@@ -112,7 +112,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
             console.log('Fichier uploadé avec succès:', fileName);
 
             // Récupération de l'URL publique
-            const { data: { publicUrl } } = supabase.storage
+            const { data: { publicUrl } } = supabaseClient.storage
                 .from('fichiers_devis')
                 .getPublicUrl(fileName);
 
@@ -122,7 +122,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
         // Envoi des données du formulaire
         console.log('Tentative d\'insertion dans la base de données');
-        const { data, error: insertError } = await supabase
+        const { data, error: insertError } = await supabaseClient
             .from('demandes_devis')
             .insert([
                 {
