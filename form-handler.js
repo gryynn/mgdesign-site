@@ -1,9 +1,22 @@
 // Initialisation du client Supabase
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// Fonction pour afficher les erreurs
+function showError(message) {
+    const errorDiv = document.getElementById('formError');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+}
+
+function hideError() {
+    const errorDiv = document.getElementById('formError');
+    errorDiv.style.display = 'none';
+}
+
 // Gestionnaire de soumission du formulaire
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+    hideError();
     
     const submitBtn = this.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
@@ -12,10 +25,23 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
     try {
         const formData = new FormData(this);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const message = formData.get('message');
+        const name = formData.get('name').trim();
+        const email = formData.get('email').trim();
+        const message = formData.get('message').trim();
         const file = formData.get('file');
+
+        // Validation basique
+        if (name.length < 2) {
+            throw new Error('Le nom doit contenir au moins 2 caractères');
+        }
+
+        if (!email.includes('@')) {
+            throw new Error('Veuillez entrer une adresse email valide');
+        }
+
+        if (message.length < 10) {
+            throw new Error('Le message doit contenir au moins 10 caractères');
+        }
 
         let fileUrl = null;
 
@@ -64,7 +90,7 @@ document.getElementById('contactForm').addEventListener('submit', async function
         
     } catch (error) {
         console.error('Erreur:', error);
-        alert('❌ Une erreur est survenue. Veuillez réessayer ou nous contacter directement.');
+        showError(error.message || 'Une erreur est survenue. Veuillez réessayer.');
     } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
