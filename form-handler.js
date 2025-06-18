@@ -1,5 +1,11 @@
+// Import de la configuration
+import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
+
+// Import de Supabase
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
 // Initialisation du client Supabase
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Fonction pour afficher les erreurs
 function showError(message) {

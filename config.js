@@ -1,3 +1,3 @@
 // Configuration Supabase
-const SUPABASE_URL = 'https://ukkvcmadjfojhvocwjaa.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVra3ZjbWFkamZvamh2b2N3amFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMzY0NTYsImV4cCI6MjA2NTgxMjQ1Nn0.AZI5YvjmkfIhPEbiyzvWmkVGCjwNShp3_bi9dynIJM4'; 
+export const SUPABASE_URL = 'https://ukkvcmadjfojhvocwjaa.supabase.co';
+export const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVra3ZjbWFkamZvamh2b2N3amFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMzY0NTYsImV4cCI6MjA2NTgxMjQ1Nn0.AZI5YvjmkfIhPEbiyzvWmkVGCjwNShp3_bi9dynIJM4'; 

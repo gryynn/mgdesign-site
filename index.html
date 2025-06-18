@@ -1329,19 +1329,11 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Attendre que Supabase soit chargé
-        window.addEventListener('load', function() {
-            // Charger la configuration et le gestionnaire de formulaire
-            const configScript = document.createElement('script');
-            configScript.src = 'config.js';
-            configScript.onload = function() {
-                const formHandlerScript = document.createElement('script');
-                formHandlerScript.src = 'form-handler.js';
-                document.body.appendChild(formHandlerScript);
-            };
-            document.body.appendChild(configScript);
-        });
+    <script type="module">
+        const formHandlerScript = document.createElement('script');
+        formHandlerScript.type = 'module';
+        formHandlerScript.src = 'form-handler.js';
+        document.body.appendChild(formHandlerScript);
     </script>
     <script>
         // Portfolio carousel functionality
