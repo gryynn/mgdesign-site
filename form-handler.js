@@ -1,46 +1,5 @@
-// Import de la configuration
-import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
-
-// Import de Supabase
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-
-// Initialisation du client Supabase
-console.log('Initialisation du client Supabase avec:', { 
-    SUPABASE_URL, 
-    SUPABASE_KEY: SUPABASE_KEY.substring(0, 10) + '...',
-    keyLength: SUPABASE_KEY.length
-});
-
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true
-    }
-});
-
-// Vérification de l'authentification
-async function checkAuth() {
-    try {
-        const { data: { session }, error } = await supabaseClient.auth.getSession();
-        console.log('État de l\'authentification:', { 
-            hasSession: !!session,
-            error: error ? error.message : null,
-            sessionDetails: session ? {
-                user: session.user ? {
-                    id: session.user.id,
-                    email: session.user.email,
-                    role: session.user.role
-                } : null,
-                access_token: session.access_token ? 'present' : 'missing'
-            } : null
-        });
-        return !error;
-    } catch (err) {
-        console.error('Erreur lors de la vérification de l\'authentification:', err);
-        return false;
-    }
-}
+// Utilisation du client Supabase initialisé
+const supabaseClient = window.supabase;
 
 // Fonction pour afficher les erreurs
 function showError(message) {

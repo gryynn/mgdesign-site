@@ -1329,14 +1329,53 @@
 
     <!-- Scripts -->
     <script type="module">
-        // Charger Supabase
-        await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-        
         // Charger la configuration et le gestionnaire de formulaire
+        import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        
+        // Initialiser Supabase
+        window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true
+            }
+        });
+
+        // Charger le gestionnaire de formulaire
         const formHandlerScript = document.createElement('script');
         formHandlerScript.type = 'module';
         formHandlerScript.src = 'form-handler.js';
         document.body.appendChild(formHandlerScript);
+
+        // Sauvegarder les données du formulaire
+        const form = document.getElementById('contactForm');
+        if (form) {
+            // Restaurer les données sauvegardées
+            const savedData = localStorage.getItem('formData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(key => {
+                    const input = form.elements[key];
+                    if (input) input.value = data[key];
+                });
+            }
+
+            // Sauvegarder les données lors des modifications
+            form.addEventListener('input', (e) => {
+                const formData = new FormData(form);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+                localStorage.setItem('formData', JSON.stringify(data));
+            });
+
+            // Nettoyer les données sauvegardées après soumission réussie
+            form.addEventListener('submit', () => {
+                localStorage.removeItem('formData');
+            });
+        }
     </script>
     <script>
         // Portfolio carousel functionality
