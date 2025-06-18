@@ -5,7 +5,12 @@ import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
 // Initialisation du client Supabase
-console.log('Initialisation du client Supabase avec:', { SUPABASE_URL, SUPABASE_KEY: SUPABASE_KEY.substring(0, 10) + '...' });
+console.log('Initialisation du client Supabase avec:', { 
+    SUPABASE_URL, 
+    SUPABASE_KEY: SUPABASE_KEY.substring(0, 10) + '...',
+    keyLength: SUPABASE_KEY.length
+});
+
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
     auth: {
         autoRefreshToken: true,
@@ -16,9 +21,25 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
 
 // Vérification de l'authentification
 async function checkAuth() {
-    const { data: { session }, error } = await supabaseClient.auth.getSession();
-    console.log('État de l\'authentification:', { session: !!session, error });
-    return !error;
+    try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        console.log('État de l\'authentification:', { 
+            hasSession: !!session,
+            error: error ? error.message : null,
+            sessionDetails: session ? {
+                user: session.user ? {
+                    id: session.user.id,
+                    email: session.user.email,
+                    role: session.user.role
+                } : null,
+                access_token: session.access_token ? 'present' : 'missing'
+            } : null
+        });
+        return !error;
+    } catch (err) {
+        console.error('Erreur lors de la vérification de l\'authentification:', err);
+        return false;
+    }
 }
 
 // Fonction pour afficher les erreurs
@@ -87,6 +108,8 @@ document.getElementById('contactForm').addEventListener('submit', async function
         
         // Vérifier l'authentification avant de continuer
         const isAuthenticated = await checkAuth();
+        console.log('Résultat de la vérification d\'authentification:', isAuthenticated);
+        
         if (!isAuthenticated) {
             throw new Error('Erreur d\'authentification avec Supabase');
         }
@@ -97,7 +120,12 @@ document.getElementById('contactForm').addEventListener('submit', async function
         const message = formData.get('message').trim();
         const file = formData.get('file');
 
-        console.log('Données du formulaire récupérées:', { name, email, messageLength: message.length });
+        console.log('Données du formulaire récupérées:', { 
+            name, 
+            email, 
+            messageLength: message.length,
+            hasFile: !!file
+        });
 
         // Validation basique
         if (name.length < 2) {
