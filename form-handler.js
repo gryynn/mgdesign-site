@@ -136,7 +136,12 @@ document.getElementById('contactForm').addEventListener('submit', async function
             .select();
 
         if (insertError) {
-            console.error('Erreur lors de l\'insertion dans la base de données:', insertError);
+            console.error('Erreur détaillée lors de l\'insertion:', {
+                message: insertError.message,
+                details: insertError.details,
+                hint: insertError.hint,
+                code: insertError.code
+            });
             throw insertError;
         }
 
